@@ -23,45 +23,45 @@ WS [ \t\n]
 /* Definitions of Rules \& Actions */
 %%
 "int"       { return INT; }
-{CHAR}       { printf("<keyword, char>\n"); /* Keyword Rule */ }
-{IF}       { printf("<keyword, if>\n"); /* Keyword Rule */ }
-{ELSE}       { printf("<keyword, else>\n"); /* Keyword Rule */ }
-{VOID}       { printf("<keyword, void>\n"); /* Keyword Rule */ }
-{RETURN}       { printf("<keyword, return>\n"); /* Keyword Rule */ }
-{FOR}       { printf("<keyword, for>\n"); /* Keyword Rule */ }
+{CHAR}       { return KEYWORD; }
+{IF}       { return KEYWORD; }
+{ELSE}       { return KEYWORD; }
+{VOID}       { return KEYWORD; }
+{RETURN}       { return KEYWORD; }
+{FOR}       { return KEYWORD; }
 {INTCONST} { yylval.num = atoi(yytext); return NUMBER; }
-{CCONST} { printf("<constant, %s>\n", yytext); /* Keyword Rule */ }
-{SCONST} { printf("<string-literal, %s>\n", yytext); /* Keyword Rule */ }
-{ID}        { return ID; /* Identifier Rule & yytext points to lexeme */}
+{CCONST} { yylval.ch = yytext; return CONSTANT; }
+{SCONST} { yylval.s = yytext; return STRINGLIT}
+{ID}        { yyval.id = yytext; return IDENTIFIER; }
 {SL} /* Single line Comment Rule */ ;
 {ML} /* Multi line Comment Rule */ ;
-"[" { printf("<punctuator, [>\n"); /* Punctuator Rule */ }
-"]" { printf("<punctuator, ]>\n"); /* Punctuator Rule */ }
-"(" { printf("<punctuator, (>\n"); /* Punctuator Rule */ }
-")" { printf("<punctuator, )>\n"); /* Punctuator Rule */ }
-"{" { printf("<punctuator, {>\n"); /* Punctuator Rule */ }
-"}" { printf("<punctuator, }>\n"); /* Punctuator Rule */ }
-"->" { printf("<punctuator, ->>\n"); /* Punctuator Rule */ }
-"&" { printf("<punctuator, &>\n"); /* Punctuator Rule */ }
-"*" { printf("<punctuator, *>\n"); /* Punctuator Rule */ }
-"+" { printf("<punctuator, +>\n"); /* Punctuator Rule */ }
-"-" { printf("<punctuator, ->\n"); /* Punctuator Rule */ }
-"/" { printf("<punctuator, />\n"); /* Punctuator Rule */ }
-"%" { printf("<punctuator, %%>\n"); /* Punctuator Rule */ }
-"!" { printf("<punctuator, !>\n"); /* Punctuator Rule */ }
-"?" { printf("<punctuator, ?>\n"); /* Punctuator Rule */ }
-"<" { printf("<punctuator, <>\n"); /* Punctuator Rule */ }
-">" { printf("<punctuator, >>\n"); /* Punctuator Rule */ }
-"<=" { printf("<punctuator, <=>\n"); /* Punctuator Rule */ }
-">=" { printf("<punctuator, >=>\n"); /* Punctuator Rule */ }
-"==" { printf("<punctuator, ==>\n"); /* Punctuator Rule */ }
-"!=" { printf("<punctuator, !=>\n"); /* Punctuator Rule */ }
-"&&" { printf("<punctuator, &&>\n"); /* Punctuator Rule */ }
-"||" { printf("<punctuator, ||>\n"); /* Punctuator Rule */ }
-"=" { printf("<punctuator, =>\n"); /* Punctuator Rule */ }
-":" { printf("<punctuator, :>\n"); /* Punctuator Rule */ }
-";" { printf("<punctuator, ;>\n"); /* Punctuator Rule */ }
-"," { printf("<punctuator, ,>\n"); /* Punctuator Rule */ }
+"[" { return PUNC; }
+"]" { return PUNC; }
+"(" { return PUNC; }
+")" { return PUNC; }
+"{" { return PUNC; }
+"}" { return PUNC; }
+"->" { return PUNC; }
+"&" { return PUNC; }
+"*" { return PUNC; }
+"+" { return PUNC; }
+"-" { return PUNC; }
+"/" { return PUNC; }
+"%" { return PUNC; }
+"!" { return PUNC; }
+"?" { return PUNC; }
+"<" { return PUNC; }
+">" { return PUNC; }
+"<=" { return PUNC; }
+">=" { return PUNC; }
+"==" { return PUNC; }
+"!=" { return PUNC; }
+"&&" { return PUNC; }
+"||" { return PUNC; }
+"=" { return PUNC; }
+":" { return PUNC; }
+";" { return PUNC; }
+"," { return PUNC; }
 {WS}        /* White-space Rule */;
 %%
 /* C functions */

@@ -10,6 +10,7 @@ void yyerror(char *s);
 %token CONST
 %token PUNC
 %token IDENTIFIER
+%token STRINGLIT
 
 %nonassoc '-'
 
