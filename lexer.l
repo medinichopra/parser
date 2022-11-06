@@ -9,7 +9,8 @@ SL \/\/[^\n\r]+?(?:\*\)|[\n\r])
 ML "/*"([^*/]*)"*/"
 INTCONST [0]|[+-][1-9][0-9]*|[0-9]+ 
 CCONST [']{ESC}|[^'\n\\]+[']
-PUNC "["|"]"|"("|")"|"{"|"}"|"&"|"*"|"/"|"%"|"!"|"?"|"<"|">"|"="|":"|";"|","|"+"|"-"
+PUNC "["|"]"|"("|")"|"{"|"}"|"&"|"*"|"/"|"%"|"!"|"?"|"<"|">"|":"|";"|"," 
+/*|"+"|"-"|"="*/
 INT "int"
 CHAR "char"
 IF "if"
@@ -34,8 +35,8 @@ WS [ \t\n]
 {SL} 		{}
 {ML} 		{}             
 {ID} 		{yylval.str = yytext; return IDENTIFIER; } //correct? yylval.id = yytext; ADD REST OF YYLVAL ALSO, FIX THOSE
-{INTCONST}              {yylval.intval = atoi(yytext); return I_CONSTANT;} //add yyval thing here
-{CONST}             { yylval.chval = (yytext); return CONSTANT; } // print constant?? yeah we have to - dhati
+{INTCONST}              {yylval.intval = atoi(yytext); return I_CONSTANT;} 
+{CCONST}             { yylval.chval = (yytext); return CONSTANT; } // print constant?? yeah we have to - dhati
 {SCONST}                {return STRLIT; }
 "&&"                    { return AND_OP; }
 "||"					{ return OR_OP; }

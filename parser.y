@@ -1,6 +1,7 @@
 %{
 	/*definition*/
 	#include <string.h>
+	#include <stdio.h>
 	extern int yylex();
 	void yyerror(char* s);
 %}
@@ -12,15 +13,11 @@
 }
 
 %token <str> IDENTIFIER
-%token <intval> CONSTANT
-%token <chval> I_CONSTANT
+%token <chval> CONSTANT
+%token <intval> I_CONSTANT
 %token <str> STRLIT
 %token INT CHAR IF ELSE VOID RETURN FOR
 %token AND_OP OR_OP LE_OP GE_OP EQ_OP NE_OP PTR_OP
-%token PUNC
-
-%type block_item_list_opt declaration_list_opt parameter_list_opt pointer_opt expression_opt identifier_opt
-
 
 %nonassoc '-'
 %left "+""_"
@@ -29,9 +26,10 @@ statement: expression ;
 
 //Expressions
 primary_expression: IDENTIFIER {printf("%s\n", $1);}
-|CONSTANT
-|STRLIT
-|'(' expression ')' {printf("primary_expression <_ ( expression)");}
+| CONSTANT
+| STRLIT
+| I_CONSTANT
+| '(' expression ')' {printf("primary_expression <_ ( expression)");}
 ;
 
 postfix_expression: primary_expression 
@@ -102,8 +100,7 @@ init_declarator: declarator
 | declarator '=' initializer
 ;
 
-type_specifier: 
-| VOID
+type_specifier: VOID
 | CHAR
 | INT
 ;
@@ -117,10 +114,23 @@ declarator: pointer_opt direct_declarator
 
 pointer: '*' ;
 
+pointer_opt: 
+| pointer
+;
+
 parameter_list: parameter_declaration
 | parameter_list ',' parameter_declaration
 ;
-parameter_declaration: type_specifier pointer_opt IDENTIFIER_opt;
+
+parameter_list_opt: 
+| parameter_list
+;
+
+identifier_opt:
+| IDENTIFIER
+;
+
+parameter_declaration: type_specifier pointer_opt identifier_opt;
 initializer: assignment_expression;
 
 // STATEMENTS
@@ -133,6 +143,10 @@ statement: compound_statement // Multiple statements and / or nest block/s
 
 compound_statement:'{'block_item_list_opt'}';
 
+block_item_list_opt: 
+| block_item_list
+;
+
 block_item_list: block_item
 | block_item_list block_item
 ;
@@ -142,6 +156,10 @@ block_item: declaration
 ;
 
 expression_statement: expression_opt ';' ;
+
+expression_opt: 
+| expression
+;
 
 selection_statement:
 IF '(' expression ')' statement
@@ -159,10 +177,17 @@ function_definition
 | declaration
 ;
 
-function_definition: type_specifier declarator '(' declaration_list_opt ')' compound_statement;
+function_definition: type_specifier declarator '(' declaration_list_opt ')' compound_statement
+;
+
+declaration_list_opt:
+| declaration_list
+;
+
 declaration_list: declaration
 | declaration_list declaration
 ;
+
 
 %%
 //void yyerror(char* s) {
