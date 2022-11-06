@@ -31,7 +31,7 @@ WS [ \t\n]
 {VOID}       {return VOID;}
 {RETURN}       {return RETURN;}
 {FOR}       {return FOR;}
-{PUNC}      {printf("%s",yytext);return yytext[0]; }          
+{PUNC}      {return PUNC }          
 {SL} 		{}
 {ML} 		{}             
 {ID} 		{yylval.str = yytext; return IDENTIFIER; } //correct? yylval.id = yytext; ADD REST OF YYLVAL ALSO, FIX THOSE
