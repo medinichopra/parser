@@ -5,28 +5,22 @@
 	extern int yylex();
 	void yyerror(char* s);
 %}
-	/*rules*/
-%union {
-	int intval;
-	char* chval;
-	char* str;
-}
 
-%token <str> IDENTIFIER
-%token <chval> CONSTANT
-%token <intval> I_CONSTANT
-%token <str> STRLIT
+%token IDENTIFIER
+%token CONSTANT
+%token I_CONSTANT
+%token STRLIT
 %token INT CHAR IF ELSE VOID RETURN FOR
 %token AND_OP OR_OP LE_OP GE_OP EQ_OP NE_OP PTR_OP
 
 %nonassoc '-'								
 %left '+' '_'
-%%
 
-statement: expression ;
+%%
+statement: translation_unit ;
 
 //Expressions
-primary_expression: IDENTIFIER {printf("%s\n", $1);}
+primary_expression: IDENTIFIER 
 | CONSTANT
 | STRLIT
 | I_CONSTANT
@@ -35,19 +29,23 @@ primary_expression: IDENTIFIER {printf("%s\n", $1);}
 
 postfix_expression: primary_expression 
 | postfix_expression '[' expression ']' 
-| postfix_expression '(' argument_expression_list ')' 
+| postfix_expression '(' argument_expression_list_opt ')' 
 | postfix_expression PTR_OP IDENTIFIER
+;
+
+argument_expression_list_opt: %empty
+| argument_expression_list
 ;
 
 argument_expression_list: assignment_expression 
 |argument_expression_list ',' assignment_expression
 ;
 
-unary_expression: postfix_expression
-| unary_operator unary_expression
+unary_operator: '&' | '*' | '+' | '-' | '!'
 ;
 
-unary_operator: '&' | '*' | '+' | '-' | '!'
+unary_expression: postfix_expression
+| unary_operator unary_expression
 ;
 
 multiplicative_expression: unary_expression
@@ -107,8 +105,9 @@ type_specifier: VOID
 ;
 
 declarator: pointer_opt direct_declarator
-| direct_declarator:
-| IDENTIFIER 
+;
+
+direct_declarator: IDENTIFIER 
 | IDENTIFIER '[' I_CONSTANT ']' 
 | IDENTIFIER '(' parameter_list_opt ')' 
 ;
@@ -132,6 +131,7 @@ identifier_opt:	%empty
 ;
 
 parameter_declaration: type_specifier pointer_opt identifier_opt;
+
 initializer: assignment_expression;
 
 // STATEMENTS

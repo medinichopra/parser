@@ -31,12 +31,12 @@ WS [ \t\n]
 {VOID}       {return VOID;}
 {RETURN}       {return RETURN;}
 {FOR}       {return FOR;}
-{PUNC}      {return PUNC }          
+{PUNC}      {return yytext[0];}  //printf("%s", yytext);        
 {SL} 		{}
 {ML} 		{}             
-{ID} 		{yylval.str = yytext; return IDENTIFIER; } //correct? yylval.id = yytext; ADD REST OF YYLVAL ALSO, FIX THOSE
-{INTCONST}              {yylval.intval = atoi(yytext); return I_CONSTANT;} 
-{CCONST}             { yylval.chval = (yytext); return CONSTANT; } // print constant?? yeah we have to - dhati
+{ID} 		{return IDENTIFIER; } //yylval.str = yytext; 
+{INTCONST}              {return I_CONSTANT;} //yylval.intval = atoi(yytext); 
+{CCONST}             { return CONSTANT; } // yylval.chval = (yytext); 
 {SCONST}                {return STRLIT; }
 "&&"                    { return AND_OP; }
 "||"					{ return OR_OP; }
@@ -45,7 +45,7 @@ WS [ \t\n]
 "=="					{ return EQ_OP; }
 "!="					{ return NE_OP; }
 "->"					{ return PTR_OP; }
-{WS}        			{return 0;} //correct???
+{WS}        			{} 
 
 %%
 
