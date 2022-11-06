@@ -19,9 +19,10 @@
 %token INT CHAR IF ELSE VOID RETURN FOR
 %token AND_OP OR_OP LE_OP GE_OP EQ_OP NE_OP PTR_OP
 
-%nonassoc '-'
-%left "+""_"
+%nonassoc '-'								
+%left '+' '_'
 %%
+
 statement: expression ;
 
 //Expressions
@@ -112,9 +113,9 @@ declarator: pointer_opt direct_declarator
 | IDENTIFIER '(' parameter_list_opt ')' 
 ;
 
-pointer: '*' ;
+pointer:  '*' ;
 
-pointer_opt: 
+pointer_opt: %empty
 | pointer
 ;
 
@@ -122,11 +123,11 @@ parameter_list: parameter_declaration
 | parameter_list ',' parameter_declaration
 ;
 
-parameter_list_opt: 
+parameter_list_opt: %empty
 | parameter_list
 ;
 
-identifier_opt:
+identifier_opt:	%empty
 | IDENTIFIER
 ;
 
@@ -143,7 +144,7 @@ statement: compound_statement // Multiple statements and / or nest block/s
 
 compound_statement:'{'block_item_list_opt'}';
 
-block_item_list_opt: 
+block_item_list_opt: %empty
 | block_item_list
 ;
 
@@ -157,7 +158,7 @@ block_item: declaration
 
 expression_statement: expression_opt ';' ;
 
-expression_opt: 
+expression_opt: %empty
 | expression
 ;
 
@@ -169,18 +170,16 @@ IF '(' expression ')' statement
 iteration_statement:
 FOR '(' expression_opt ';' expression_opt ';' expression_opt ')' statement ;
 
-jump_statement:
-RETURN expression_opt ;
+jump_statement: RETURN expression_opt ;
 
-translation_unit: 
-function_definition
+translation_unit: function_definition
 | declaration
 ;
 
 function_definition: type_specifier declarator '(' declaration_list_opt ')' compound_statement
 ;
 
-declaration_list_opt:
+declaration_list_opt: %empty
 | declaration_list
 ;
 
