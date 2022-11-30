@@ -22,7 +22,6 @@ int quadPtr = 0; // Index of next quad
 
 %token <intval> NUMBER
 %token <symp> NAME
-%type <symp> primary_expression
 %token CHAR ELSE FOR IF INT
 %token RET VOID ID 
 %token CHAR_CONST 
@@ -30,8 +29,8 @@ int quadPtr = 0; // Index of next quad
 %token MULTI_COMM SINGLE_COMM WS
 %token EQ_OPT LE_OPT GE_OPT NE_OPT 
 %token AND_OPT PTR_OPT OR_OPT
-%type <symp> primary_expression
-%type <symp> postfix_expression
+%type <symp> primary_expression postfix_expression
+
 
 
 %left '+' '-'
@@ -49,7 +48,7 @@ by left or right recursion as appropriate.*/
 
 primary_expression:
 	ID
-	|INT_CONST
+	|NUMBER
 	|CHAR_CONST 
 	|STR_LIT 
 	|'(' expression ')'
@@ -61,7 +60,6 @@ postfix_expression:
 	|postfix_expression '(' argument_expression_list_opt ')'
 ;
 argument_expression_list_opt:
-	%empty |
 	argument_expression_list
 ;
 
@@ -152,7 +150,7 @@ declarator:
 
 direct_declarator:
 	ID // Simple identifier
-	|ID '[' INT_CONST ']' // 1-D array of a built-in type or ptr to it. Only +ve constant
+	|ID '[' NUMBER ']' // 1-D array of a built-in type or ptr to it. Only +ve constant
 	|ID '(' parameter_list_opt ')'  // Fn. header with params of built-in type or ptr to them
 ;
 
@@ -161,7 +159,6 @@ pointer:
 ;
 
 pointer_opt:
-
 pointer
 ;
 

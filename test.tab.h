@@ -39,59 +39,71 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     CHAR = 258,
-     ELSE = 259,
-     FOR = 260,
-     IF = 261,
-     INT = 262,
-     RET = 263,
-     VOID = 264,
-     ID = 265,
-     INT_CONST = 266,
-     CHAR_CONST = 267,
-     STR_LIT = 268,
-     PUNC = 269,
-     MULTI_COMM = 270,
-     SINGLE_COMM = 271,
-     WS = 272,
-     EQ_OPT = 273,
-     LE_OPT = 274,
-     GE_OPT = 275,
-     NE_OPT = 276,
-     AND_OPT = 277,
-     PTR_OPT = 278,
-     OR_OPT = 279
+     NUMBER = 258,
+     NAME = 259,
+     CHAR = 260,
+     ELSE = 261,
+     FOR = 262,
+     IF = 263,
+     INT = 264,
+     RET = 265,
+     VOID = 266,
+     ID = 267,
+     CHAR_CONST = 268,
+     STR_LIT = 269,
+     PUNC = 270,
+     MULTI_COMM = 271,
+     SINGLE_COMM = 272,
+     WS = 273,
+     EQ_OPT = 274,
+     LE_OPT = 275,
+     GE_OPT = 276,
+     NE_OPT = 277,
+     AND_OPT = 278,
+     PTR_OPT = 279,
+     OR_OPT = 280,
+     UMINUS = 281
    };
 #endif
 /* Tokens.  */
-#define CHAR 258
-#define ELSE 259
-#define FOR 260
-#define IF 261
-#define INT 262
-#define RET 263
-#define VOID 264
-#define ID 265
-#define INT_CONST 266
-#define CHAR_CONST 267
-#define STR_LIT 268
-#define PUNC 269
-#define MULTI_COMM 270
-#define SINGLE_COMM 271
-#define WS 272
-#define EQ_OPT 273
-#define LE_OPT 274
-#define GE_OPT 275
-#define NE_OPT 276
-#define AND_OPT 277
-#define PTR_OPT 278
-#define OR_OPT 279
+#define NUMBER 258
+#define NAME 259
+#define CHAR 260
+#define ELSE 261
+#define FOR 262
+#define IF 263
+#define INT 264
+#define RET 265
+#define VOID 266
+#define ID 267
+#define CHAR_CONST 268
+#define STR_LIT 269
+#define PUNC 270
+#define MULTI_COMM 271
+#define SINGLE_COMM 272
+#define WS 273
+#define EQ_OPT 274
+#define LE_OPT 275
+#define GE_OPT 276
+#define NE_OPT 277
+#define AND_OPT 278
+#define PTR_OPT 279
+#define OR_OPT 280
+#define UMINUS 281
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+#line 18 "test.y"
+{ // Placeholder for a value
+	int intval;
+	symboltable *symp;
+}
+/* Line 1529 of yacc.c.  */
+#line 106 "test.tab.h"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
