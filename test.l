@@ -1,8 +1,10 @@
 %{
 	/* C Declarations and Definitions */
 	#include "test.tab.h"
+	#include "test.h"
 	#include <stdio.h>
-
+	#include <math.h>
+	#include <stdlib.h>
 	extern int yylval;
 
 %}
@@ -38,10 +40,12 @@ WS			[\s\t\n]
 {ELSE} 			{ return ELSE;/* Keyword Rule */ }
 {FOR}			{ return FOR; /* Keyword Rule */}
 {IF} 			{ return IF; /* Keyword Rule */}
-{INT} 			{ return INT; /* Keyword Rule */}
+{INT} 			{ yylval.intval = atoi(yytext); 
+				  return NUMBER; /* Keyword Rule */}
 {CHAR} 			{ return CHAR; /*Keyword Rule*/}
 {RET} 			{ return RET; /* Keyword Rule */}
-{ID}			{ return ID;}
+{ID}			{ yylval.symp = symlook(yytext); // return symbol pointer
+					return NAME;}
 {INT_CONST} 	{ return INT_CONST;}
 {CHAR_CONST} 	{ return CHAR_CONST;}
 {STR_LIT} 		{ return STR_LIT;} 

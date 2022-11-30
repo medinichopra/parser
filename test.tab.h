@@ -39,29 +39,59 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     NUMBER = 258,
-     NAME = 259,
-     UMINUS = 260
+     CHAR = 258,
+     ELSE = 259,
+     FOR = 260,
+     IF = 261,
+     INT = 262,
+     RET = 263,
+     VOID = 264,
+     ID = 265,
+     INT_CONST = 266,
+     CHAR_CONST = 267,
+     STR_LIT = 268,
+     PUNC = 269,
+     MULTI_COMM = 270,
+     SINGLE_COMM = 271,
+     WS = 272,
+     EQ_OPT = 273,
+     LE_OPT = 274,
+     GE_OPT = 275,
+     NE_OPT = 276,
+     AND_OPT = 277,
+     PTR_OPT = 278,
+     OR_OPT = 279
    };
 #endif
 /* Tokens.  */
-#define NUMBER 258
-#define NAME 259
-#define UMINUS 260
+#define CHAR 258
+#define ELSE 259
+#define FOR 260
+#define IF 261
+#define INT 262
+#define RET 263
+#define VOID 264
+#define ID 265
+#define INT_CONST 266
+#define CHAR_CONST 267
+#define STR_LIT 268
+#define PUNC 269
+#define MULTI_COMM 270
+#define SINGLE_COMM 271
+#define WS 272
+#define EQ_OPT 273
+#define LE_OPT 274
+#define GE_OPT 275
+#define NE_OPT 276
+#define AND_OPT 277
+#define PTR_OPT 278
+#define OR_OPT 279
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE
-#line 18 "Parser.y"
-{ // Placeholder for a value
-	int intval;
-	symboltable *symp;
-}
-/* Line 1529 of yacc.c.  */
-#line 64 "Parser.tab.h"
-	YYSTYPE;
+typedef int YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
