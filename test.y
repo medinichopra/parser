@@ -17,7 +17,7 @@ int quadPtr = 0; // Index of next quad
 %}
 %union { // Placeholder for a value
 	int intval;
-	symboltable *symp;
+	struct symboltable *symp;
 }
 
 %token <intval> NUMBER
@@ -258,7 +258,4 @@ declaration_list_opt:
 %%
 /*Additional C Code*/
 
-void yyerror(const char *s) {
-	printf("%s", s);
-}
 

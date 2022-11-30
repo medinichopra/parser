@@ -5,7 +5,7 @@
 	#include <stdio.h>
 	#include <math.h>
 	#include <stdlib.h>
-	extern int yylval;
+	//extern int yylval;
 
 %}
 
@@ -40,13 +40,13 @@ WS			[\s\t\n]
 {ELSE} 			{ return ELSE;/* Keyword Rule */ }
 {FOR}			{ return FOR; /* Keyword Rule */}
 {IF} 			{ return IF; /* Keyword Rule */}
-{INT} 			{ yylval.intval = atoi(yytext); 
-				  return NUMBER; /* Keyword Rule */}
+{INT} 			{ return INT;}
 {CHAR} 			{ return CHAR; /*Keyword Rule*/}
 {RET} 			{ return RET; /* Keyword Rule */}
 {ID}			{ yylval.symp = symlook(yytext); // return symbol pointer
 					return NAME;}
-{INT_CONST} 	{ return INT_CONST;}
+{INT_CONST} 	{ yylval.intval = atoi(yytext); 
+				  return NUMBER; /* Keyword Rule */}
 {CHAR_CONST} 	{ return CHAR_CONST;}
 {STR_LIT} 		{ return STR_LIT;} 
 {EQ_OPT}		{ return EQ_OPT;}
