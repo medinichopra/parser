@@ -21,7 +21,7 @@ int quadPtr = 0; // Index of next quad
 }
 
 %token <intval> NUMBER
-%token <symp> NAME
+%token <symp> NAME INT FOR RETURN IF ELSE CHAR
 %type <symp> expression
 
 %left '+' '-'
