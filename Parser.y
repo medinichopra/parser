@@ -94,7 +94,7 @@ void printrule(char *s) {
 	}
 	fclose(fp);
 }
-int Parser_main() {
+int main() {
 	yyparse();
 
 	for (int i = 0; i < quadPtr; ++i)
