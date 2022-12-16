@@ -21,20 +21,21 @@ int quadPtr = 0; // Index of next quad
 }
 
 %token <intval> NUMBER
-%token <symp> NAME
-%token CHAR ELSE FOR IF INT
-%token RET VOID ID 
+%token <symp> NAME CHAR ELSE FOR IF INT RET VOID ID 
 %token CHAR_CONST 
 %token STR_LIT PUNC 
 %token MULTI_COMM SINGLE_COMM WS
 %token EQ_OPT LE_OPT GE_OPT NE_OPT 
 %token AND_OPT PTR_OPT OR_OPT
-%type <symp> primary_expression postfix_expression
+%type <symp> primary_expression postfix_expression argument_expression_list_opt argument_expression_list unary_expression
 
 
-
+%left '='
+%left '|'
+%left '^'
+%left '&'
 %left '+' '-'
-%left '*' '/'
+%left '*' '/' '%'
 %nonassoc UMINUS
 
 %start translation_unit
@@ -59,12 +60,12 @@ postfix_expression:
 	|postfix_expression '[' expression ']'
 	|postfix_expression '(' argument_expression_list_opt ')'
 ;
-argument_expression_list_opt:
+argument_expression_list_opt: %empty |
 	argument_expression_list
 ;
 
 argument_expression_list:
-	assignment_expression
+	assignment_expression 
 	|argument_expression_list ',' assignment_expression
 ;
 
@@ -74,23 +75,23 @@ unary_operator:
 
 unary_expression:
 	postfix_expression
-	|unary_operator unary_expression // Expr. with prefix ops. Right assoc. in C; non-assoc. here
-;	// Only a single prefix op is allowed in an expression here
+	|unary_operator unary_expression 
+	;
 
-multiplicative_expression: // Left associative operators
+multiplicative_expression:
 	unary_expression
 	|multiplicative_expression '*' unary_expression 
 	|multiplicative_expression '/' unary_expression
 	|multiplicative_expression '%' unary_expression
 ;
 
-additive_expression: // Left associative operators
+additive_expression:
 	multiplicative_expression
 	|additive_expression '+' multiplicative_expression
 	|additive_expression '-' multiplicative_expression 
 ;
 	
-relational_expression: // Left associative operators
+relational_expression:
 	additive_expression
 	| relational_expression '<' additive_expression
 	| relational_expression '>' additive_expression
@@ -98,7 +99,7 @@ relational_expression: // Left associative operators
 	| relational_expression GE_OPT additive_expression
 ;
 
-equality_expression: // Left associative operators
+equality_expression:
 	relational_expression
 	|equality_expression EQ_OPT relational_expression
 	|equality_expression NE_OPT relational_expression
@@ -158,7 +159,7 @@ pointer:
 	'*'
 ;
 
-pointer_opt:
+pointer_opt: %empty |
 pointer
 ;
 
@@ -168,7 +169,7 @@ parameter_list:
 ;
 
 parameter_list_opt:
-	
+	%empty |
 	parameter_list
 ;
 
@@ -177,7 +178,7 @@ parameter_declaration:
 ;
 
 identifier_opt:
-	
+	%empty |
 	ID
 ;
 
@@ -199,7 +200,7 @@ compound_statement:
 ;
 
 block_item_list_opt:
-	
+	%empty |
 	block_item_list
 ;
 
@@ -223,7 +224,7 @@ selection_statement:
 ;
 
 expression_opt:
-
+	%empty |
 expression
 ;
 
@@ -251,7 +252,7 @@ declaration_list:
 ;
 
 declaration_list_opt:
-	
+	%empty | 
 	declaration_list
 ;
 

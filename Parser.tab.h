@@ -47,7 +47,8 @@
      IF = 263,
      ELSE = 264,
      CHAR = 265,
-     UMINUS = 266
+     VOID = 266,
+     UMINUS = 267
    };
 #endif
 /* Tokens.  */
@@ -59,7 +60,8 @@
 #define IF 263
 #define ELSE 264
 #define CHAR 265
-#define UMINUS 266
+#define VOID 266
+#define UMINUS 267
 
 
 
@@ -72,7 +74,7 @@ typedef union YYSTYPE
 	symboltable *symp;
 }
 /* Line 1529 of yacc.c.  */
-#line 76 "Parser.tab.h"
+#line 78 "Parser.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

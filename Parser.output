@@ -6,6 +6,7 @@ Terminals which are not used
    IF
    ELSE
    CHAR
+   VOID
 
 
 Grammar
@@ -47,18 +48,19 @@ RETURN (262)
 IF (263)
 ELSE (264)
 CHAR (265)
-UMINUS (266)
+VOID (266)
+UMINUS (267)
 
 
 Nonterminals, with rules where they appear
 
-$accept (20)
+$accept (21)
     on left: 0
-list_of_statements (21)
+list_of_statements (22)
     on left: 1 2, on right: 0 2
-statement (22)
+statement (23)
     on left: 3, on right: 1 2
-expression (23)
+expression (24)
     on left: 4 5 6 7 8 9 10 11, on right: 3 4 5 6 7 8 9
 
 
