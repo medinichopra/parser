@@ -85,3 +85,99 @@ E -> E * E
 additive -> multiplicative
 S -> id = E
 L -> L S
+E -> num
+postfix -> primary
+unary -> postfix
+additive -> multiplicative
+S -> id = E
+L -> S
+E -> num
+postfix -> primary
+unary -> postfix
+additive -> multiplicative
+S -> id = E
+L -> L S
+E -> id
+postfix -> primary
+unary -> postfix
+additive -> multiplicative
+E -> id
+postfix -> primary
+unary -> postfix
+E -> E + E
+S -> id = E
+L -> L S
+E -> id
+postfix -> primary
+unary -> postfix
+E -> num
+postfix -> primary
+unary -> postfix
+E -> E * E
+additive -> multiplicative
+S -> id = E
+L -> L S
+E -> num
+postfix -> primary
+unary -> postfix
+additive -> multiplicative
+S -> id = E
+L -> S
+E -> num
+postfix -> primary
+unary -> postfix
+additive -> multiplicative
+S -> id = E
+L -> L S
+E -> id
+postfix -> primary
+unary -> postfix
+additive -> multiplicative
+E -> id
+postfix -> primary
+unary -> postfix
+E -> E + E
+S -> id = E
+L -> L S
+E -> id
+postfix -> primary
+unary -> postfix
+E -> num
+postfix -> primary
+unary -> postfix
+E -> E * E
+additive -> multiplicative
+S -> id = E
+L -> L S
+E -> num
+postfix -> primary
+unary -> postfix
+additive -> multiplicative
+S -> id = E
+L -> S
+E -> num
+postfix -> primary
+unary -> postfix
+additive -> multiplicative
+S -> id = E
+L -> L S
+E -> id
+postfix -> primary
+unary -> postfix
+additive -> multiplicative
+E -> num
+postfix -> primary
+unary -> postfix
+E -> E + E
+S -> id = E
+L -> L S
+E -> id
+postfix -> primary
+unary -> postfix
+E -> num
+postfix -> primary
+unary -> postfix
+E -> E * E
+additive -> multiplicative
+S -> id = E
+L -> L S

@@ -62,7 +62,8 @@ primary_expression:
 	sprintf(num_s, "%d", $1);
 	qArray[quadPtr++] = new_quad_unary(COPY, $$->name, num_s);
 	printrule("E -> num");
-}
+	}
+	
 	|CHAR_CONST { $$ = $1; printrule("E -> Character"); }
 	|STR_LIT { $$ = $1; printrule("E -> String"); }
 	|'(' primary_expression ')' { $$ = $2; printrule("E -> (E)"); }

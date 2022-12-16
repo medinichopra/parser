@@ -5,5 +5,5 @@ Parser:
 	bison -dtv test.y
 	gcc -c lex.yy.c -o lex.yy.o
 	gcc -c test.tab.c -o test.tab.o
-	gcc lex.yy.o test.tab.o test.c -lfl
+	gcc lex.yy.o test.tab.o test.c -ll
 	
