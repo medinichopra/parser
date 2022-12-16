@@ -1,7 +1,7 @@
 %{
 	/* C Declarations and Definitions */
-	#include "test.tab.h"
 	#include "test.h"
+	#include "test.tab.h"
 	#include <stdio.h>
 	#include <math.h>
 	#include <stdlib.h>
@@ -44,9 +44,9 @@ WS			[\s\t\n]
 {CHAR} 			{ return CHAR; /*Keyword Rule*/}
 {RET} 			{ return RET; /* Keyword Rule */}
 {ID}			{ yylval.symp = symlook(yytext); // return symbol pointer
-					return NAME;}
-{INT_CONST} 	{ yylval.intval = atoi(yytext); 
-				  return NUMBER; /* Keyword Rule */}
+						return ID;}
+{INT_CONST} 	{ yylval.intval = atoi(yytext); // yylval denotes the attribute of the current symbol
+						return NUMBER; /* Keyword Rule */}
 {CHAR_CONST} 	{ return CHAR_CONST;}
 {STR_LIT} 		{ return STR_LIT;} 
 {EQ_OPT}		{ return EQ_OPT;}
@@ -60,8 +60,12 @@ WS			[\s\t\n]
 {MULTI_COMM} 	{ return MULTI_COMM;}
 {SINGLE_COMM} 	{ return SINGLE_COMM;}
 {WS}        	{ /* White-space Rule */}
-
+"$"					{
+						return 0; // end of input
+					}
 
 
 %%
-
+int yywrap() {
+	return 0;
+}

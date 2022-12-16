@@ -17,17 +17,16 @@ int quadPtr = 0; // Index of next quad
 %}
 %union { // Placeholder for a value
 	int intval;
-	struct symboltable *symp;
+	symboltable *symp;
 }
 
 %token <intval> NUMBER
-%token <symp> NAME CHAR ELSE FOR IF INT RET VOID ID 
-%token CHAR_CONST 
-%token STR_LIT PUNC 
+%token <symp> NAME CHAR ELSE FOR IF INT RET VOID ID CHAR_CONST STR_LIT 
+%token PUNC 
 %token MULTI_COMM SINGLE_COMM WS
 %token EQ_OPT LE_OPT GE_OPT NE_OPT 
 %token AND_OPT PTR_OPT OR_OPT
-%type <symp> primary_expression postfix_expression argument_expression_list_opt argument_expression_list unary_expression
+%type <symp> primary_expression postfix_expression multiplicative_expression additive_expression unary_expression
 
 
 %left '='
@@ -38,59 +37,93 @@ int quadPtr = 0; // Index of next quad
 %left '*' '/' '%'
 %nonassoc UMINUS
 
-%start translation_unit
+//%start translation_unit
 
 %%
-/*Grammar Rules*/
-/*Read from here!!!!*/
-/*expressions:*/
-/* The grammar is structured in a hierarchical way with precedences resolved. Associativity is handled
-by left or right recursion as appropriate.*/
+
+list_of_statements: statement
+{ printrule("L -> S"); }
+;
+list_of_statements: list_of_statements statement
+{ printrule("L -> L S"); }
+;
+statement: ID '=' additive_expression ';' //ID = primary_expression
+{ 
+	qArray[quadPtr++] = new_quad_unary(COPY, $1->name, $3->name);
+	printrule("S -> id = E"); 
+}
+;
 
 primary_expression:
-	ID
-	|NUMBER
-	|CHAR_CONST 
-	|STR_LIT 
-	|'(' expression ')'
+	ID { $$ = $1; printrule("E -> id"); }
+	|NUMBER {
+	$$ = gentemp();
+	char num_s[10];
+	sprintf(num_s, "%d", $1);
+	qArray[quadPtr++] = new_quad_unary(COPY, $$->name, num_s);
+	printrule("E -> num");
+}
+	|CHAR_CONST { $$ = $1; printrule("E -> Character"); }
+	|STR_LIT { $$ = $1; printrule("E -> String"); }
+	|'(' primary_expression ')' { $$ = $2; printrule("E -> (E)"); }
 ;
 
 postfix_expression: 
-	primary_expression 
-	|postfix_expression '[' expression ']'
-	|postfix_expression '(' argument_expression_list_opt ')'
+	primary_expression { $$ = $1; printrule("postfix -> primary"); }
+	//|postfix_expression '[' expression ']' { $$ = $2; printrule("E -> [E]"); }
+	//|postfix_expression '(' argument_expression_list_opt ')' { $$ = $2; printrule("E -> (E)"); }
 ;
+/*
 argument_expression_list_opt: %empty |
-	argument_expression_list
+	argument_expression_list { $$ = $1; printrule("argument_express_list"); }
 ;
 
 argument_expression_list:
-	assignment_expression 
+	assignment_expression { $$ = $1; printrule("unary -> postfix"); }
 	|argument_expression_list ',' assignment_expression
 ;
+*/
 
 unary_operator: 
 	'&'|'*'|'-'|'!' 
 ;
 
 unary_expression:
-	postfix_expression
+	postfix_expression { $$ = $1; printrule("unary -> postfix"); } 
 	|unary_operator unary_expression 
 	;
 
 multiplicative_expression:
 	unary_expression
 	|multiplicative_expression '*' unary_expression 
+{
+	$$ = gentemp();
+	qArray[quadPtr++] = new_quad_binary(MULT, $$->name, $1->name, $3->name);
+	printrule("E -> E * E");
+}
 	|multiplicative_expression '/' unary_expression
+{
+	$$ = gentemp();
+	qArray[quadPtr++] = new_quad_binary(DIV, $$->name, $1->name, $3->name);
+	printrule("E -> E / E");
+}
 	|multiplicative_expression '%' unary_expression
 ;
 
 additive_expression:
-	multiplicative_expression
-	|additive_expression '+' multiplicative_expression
-	|additive_expression '-' multiplicative_expression 
+	multiplicative_expression { $$ = $1; printrule("additive -> multiplicative"); }
+	|additive_expression '+' multiplicative_expression {
+	$$ = gentemp();
+	qArray[quadPtr++] = new_quad_binary(PLUS, $$->name, $1->name, $3->name);
+	printrule("E -> E + E");
+}
+	|additive_expression '-' multiplicative_expression {
+	$$ = gentemp();
+	qArray[quadPtr++] = new_quad_binary(MINUS, $$->name, $1->name, $3->name);
+	printrule("E -> E - E");
+}
 ;
-	
+/*
 relational_expression:
 	additive_expression
 	| relational_expression '<' additive_expression
@@ -129,7 +162,6 @@ expression:
 	assignment_expression
 ;
 	
-/*Declarations*/
 declaration: // Simple identifier, 1-D array or function declaration of built-in type
 	type_specifier init_declarator ';' // Only one element in a declaration
 ;
@@ -236,7 +268,6 @@ jump_statement:
 	RET expression_opt ';'
 ;
 
-/*4. Translation Unit*/
 translation_unit: // Single source file containing main()
 	function_definition
 	|declaration
@@ -255,8 +286,28 @@ declaration_list_opt:
 	%empty | 
 	declaration_list
 ;
+*/
 
 %%
+
+void yyerror(char *s) {
+	printf("%s\n", s);
+}
+void printrule(char *s) {
+	FILE *fp = fopen("Trace.txt", "a");
+	if (fp) {
+		fprintf(fp, "%s\n", s);
+	}
+	fclose(fp);
+}
+int main() {
+	yyparse();
+
+	for (int i = 0; i < quadPtr; ++i)
+		print_quad(qArray[i]);
+
+	return 0;
+}
 /*Additional C Code*/
 
 

@@ -1,5 +1,5 @@
-#ifndef __PARSER_H
-#define __PARSER_H
+#ifndef __TEST_H
+#define __TEST_H
 
 /* Symbol Table */
 typedef struct symtab {
@@ -50,4 +50,4 @@ quad *new_quad_binary(opcodeType op1, char *s1, char *s2, char *s3);
 quad *new_quad_unary(opcodeType op1, char *s1, char *s2);
 
 void print_quad(quad* q);
-#endif // __PARSER_H
+#endif // __TEST_H

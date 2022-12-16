@@ -80,7 +80,7 @@ union YYSTYPE
 #line 18 "test.y" /* yacc.c:1909  */
  // Placeholder for a value
 	int intval;
-	struct symboltable *symp;
+	symboltable *symp;
 
 #line 86 "test.tab.h" /* yacc.c:1909  */
 };
