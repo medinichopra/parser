@@ -125,38 +125,89 @@ additive_expression:
 }
 ;
 /*
-relational_expression:
+relational_expression: // Left associative operators
 	additive_expression
 	| relational_expression '<' additive_expression
+	{
+		$$ = gentemp();
+		qArray[quadPtr++] = new_quad_binary(LE, $$->name, $1->name, $3->name);
+		printrule("E -> E < E");
+	}
 	| relational_expression '>' additive_expression
+	{
+		$$ = gentemp();
+		qArray[quadPtr++] = new_quad_binary(GE, $$->name, $1->name, $3->name);
+		printrule("E -> E > E");
+	}
 	| relational_expression LE_OPT additive_expression
+	{
+		$$ = gentemp();
+		qArray[quadPtr++] = new_quad_binary(LTE, $$->name, $1->name, $3->name);
+		printrule("E -> E <= E");
+	}
 	| relational_expression GE_OPT additive_expression
+	{
+		$$ = gentemp();
+		qArray[quadPtr++] = new_quad_binary(GTE, $$->name, $1->name, $3->name);
+		printrule("E -> E >= E");
+	}
 ;
 
-equality_expression:
+equality_expression: // Left associative operators
 	relational_expression
 	|equality_expression EQ_OPT relational_expression
+	{
+		$$ = gentemp();
+		qArray[quadPtr++] = new_quad_binary(MINUS, $$->name, $1->name, $3->name);
+		printrule("E -> E == E");
+	}
 	|equality_expression NE_OPT relational_expression
+	{
+		$$ = gentemp();
+		qArray[quadPtr++] = new_quad_binary(MINUS, $$->name, $1->name, $3->name);
+		printrule("E -> E != E");
+	}
 ;
 	
 logical_AND_expression: // Left associative operators
 	equality_expression
 	|logical_AND_expression AND_OPT equality_expression
+	{
+		$$ = gentemp();
+		qArray[quadPtr++] = new_quad_binary(MINUS, $$->name, $1->name, $3->name);
+		printrule("E -> E && E");
+	}
 ;
+
 
 logical_OR_expression: // Left associative operators
 	logical_AND_expression
 	|logical_OR_expression OR_OPT logical_AND_expression
+	{
+		$$ = gentemp();
+		qArray[quadPtr++] = new_quad_binary(MINUS, $$->name, $1->name, $3->name);
+		printrule("E -> E || E");
+	}
 ;
 	
 conditional_expression: // Right associative operator
 	logical_OR_expression
 	|logical_OR_expression '?' expression ':' conditional_expression
+	{
+		$$ = gentemp();
+		qArray[quadPtr++] = new_quad_binary(MINUS, $$->name, $1->name, $3->name);
+		printrule("E -> E ? E : E"); //five kaise
+	}
 ;
 
 assignment_expression: // Right associative operator
 	conditional_expression
 	|unary_expression '=' assignment_expression // unary-expression must have lvalue
+	{
+		$$ = gentemp();
+		qArray[quadPtr++] = new_quad_binary(ASSIGN, $$->name, $1->name, $3->name);
+		printrule("E -> E = E");
+	}
 ;
 
 expression:

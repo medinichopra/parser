@@ -472,9 +472,9 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    44,    44,    47,    50,    58,    59,    66,    67,    68,
-      72,    88,    88,    88,    88,    92,    93,    97,    98,   104,
-     110,   114,   115,   120
+       0,    44,    44,    47,    50,    58,    59,    67,    68,    69,
+      73,    89,    89,    89,    89,    93,    94,    98,    99,   105,
+     111,   115,   116,   121
 };
 #endif
 
@@ -1429,36 +1429,36 @@ yyreduce:
 	sprintf(num_s, "%d", (yyvsp[(1) - (1)].intval));
 	qArray[quadPtr++] = new_quad_unary(COPY, (yyval.symp)->name, num_s);
 	printrule("E -> num");
-;}
+	;}
     break;
 
   case 7:
-#line 66 "test.y"
+#line 67 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("E -> Character"); ;}
     break;
 
   case 8:
-#line 67 "test.y"
+#line 68 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("E -> String"); ;}
     break;
 
   case 9:
-#line 68 "test.y"
+#line 69 "test.y"
     { (yyval.symp) = (yyvsp[(2) - (3)].symp); printrule("E -> (E)"); ;}
     break;
 
   case 10:
-#line 72 "test.y"
+#line 73 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("postfix -> primary"); ;}
     break;
 
   case 15:
-#line 92 "test.y"
+#line 93 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("unary -> postfix"); ;}
     break;
 
   case 18:
-#line 99 "test.y"
+#line 100 "test.y"
     {
 	(yyval.symp) = gentemp();
 	qArray[quadPtr++] = new_quad_binary(MULT, (yyval.symp)->name, (yyvsp[(1) - (3)].symp)->name, (yyvsp[(3) - (3)].symp)->name);
@@ -1467,7 +1467,7 @@ yyreduce:
     break;
 
   case 19:
-#line 105 "test.y"
+#line 106 "test.y"
     {
 	(yyval.symp) = gentemp();
 	qArray[quadPtr++] = new_quad_binary(DIV, (yyval.symp)->name, (yyvsp[(1) - (3)].symp)->name, (yyvsp[(3) - (3)].symp)->name);
@@ -1476,12 +1476,12 @@ yyreduce:
     break;
 
   case 21:
-#line 114 "test.y"
+#line 115 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("additive -> multiplicative"); ;}
     break;
 
   case 22:
-#line 115 "test.y"
+#line 116 "test.y"
     {
 	(yyval.symp) = gentemp();
 	qArray[quadPtr++] = new_quad_binary(PLUS, (yyval.symp)->name, (yyvsp[(1) - (3)].symp)->name, (yyvsp[(3) - (3)].symp)->name);
@@ -1490,7 +1490,7 @@ yyreduce:
     break;
 
   case 23:
-#line 120 "test.y"
+#line 121 "test.y"
     {
 	(yyval.symp) = gentemp();
 	qArray[quadPtr++] = new_quad_binary(MINUS, (yyval.symp)->name, (yyvsp[(1) - (3)].symp)->name, (yyvsp[(3) - (3)].symp)->name);
@@ -1714,7 +1714,7 @@ yyreturn:
 }
 
 
-#line 291 "test.y"
+#line 292 "test.y"
 
 
 void yyerror(char *s) {
