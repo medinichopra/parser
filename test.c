@@ -89,6 +89,10 @@ void print_quad(quad* q) {
 			case DIV: printf("/"); break;
 			case UNARYMINUS: printf("--"); break;
 			case COPY: printf("="); break;
+			case LE: printf("<"); break;
+			case GE: printf(">"); break;
+			case LTE: printf("<="); break;
+			case GTE: printf(">="); break;
 		}
 		printf(" %s\n", q->arg2);
 	}

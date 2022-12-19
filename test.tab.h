@@ -96,7 +96,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 18 "test.y"
+#line 37 "test.y"
 { // Placeholder for a value
 	int intval;
 	symboltable *symp;

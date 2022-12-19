@@ -140,6 +140,24 @@ void printrule(char *s);
 quad *qArray[NSYMS]; // Store of Quads
 int quadPtr = 0; // Index of next quad
 
+struct list {
+  int val;
+  struct list *next;
+};
+
+struct list *make_list(int val, struct list *next) {
+  struct list *new_list = (struct list *)malloc(sizeof(struct list));
+  new_list->val = val;
+  new_list->next = next;
+  return new_list;
+}
+
+void backpatch(struct list *list, int target) {
+  for (struct list *p = list; p != NULL; p = p->next) {
+    printf("%d: goto %d\n", p->val, target);
+  }
+}
+
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -161,13 +179,13 @@ int quadPtr = 0; // Index of next quad
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 18 "test.y"
+#line 37 "test.y"
 { // Placeholder for a value
 	int intval;
 	symboltable *symp;
 }
 /* Line 193 of yacc.c.  */
-#line 171 "test.tab.c"
+#line 189 "test.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -180,7 +198,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 184 "test.tab.c"
+#line 202 "test.tab.c"
 
 #ifdef short
 # undef short
@@ -472,9 +490,9 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    44,    44,    47,    50,    58,    59,    67,    68,    69,
-      73,    89,    89,    89,    89,    93,    94,    98,    99,   105,
-     111,   115,   116,   121
+       0,    63,    63,    66,    69,    77,    78,    86,    87,    88,
+      92,   108,   108,   108,   108,   112,   113,   117,   118,   124,
+     130,   134,   135,   140
 };
 #endif
 
@@ -1399,17 +1417,17 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 45 "test.y"
+#line 64 "test.y"
     { printrule("L -> S"); ;}
     break;
 
   case 3:
-#line 48 "test.y"
+#line 67 "test.y"
     { printrule("L -> L S"); ;}
     break;
 
   case 4:
-#line 51 "test.y"
+#line 70 "test.y"
     { 
 	qArray[quadPtr++] = new_quad_unary(COPY, (yyvsp[(1) - (4)].symp)->name, (yyvsp[(3) - (4)].symp)->name);
 	printrule("S -> id = E"); 
@@ -1417,12 +1435,12 @@ yyreduce:
     break;
 
   case 5:
-#line 58 "test.y"
+#line 77 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("E -> id"); ;}
     break;
 
   case 6:
-#line 59 "test.y"
+#line 78 "test.y"
     {
 	(yyval.symp) = gentemp();
 	char num_s[10];
@@ -1433,32 +1451,32 @@ yyreduce:
     break;
 
   case 7:
-#line 67 "test.y"
+#line 86 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("E -> Character"); ;}
     break;
 
   case 8:
-#line 68 "test.y"
+#line 87 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("E -> String"); ;}
     break;
 
   case 9:
-#line 69 "test.y"
+#line 88 "test.y"
     { (yyval.symp) = (yyvsp[(2) - (3)].symp); printrule("E -> (E)"); ;}
     break;
 
   case 10:
-#line 73 "test.y"
+#line 92 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("postfix -> primary"); ;}
     break;
 
   case 15:
-#line 93 "test.y"
+#line 112 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("unary -> postfix"); ;}
     break;
 
   case 18:
-#line 100 "test.y"
+#line 119 "test.y"
     {
 	(yyval.symp) = gentemp();
 	qArray[quadPtr++] = new_quad_binary(MULT, (yyval.symp)->name, (yyvsp[(1) - (3)].symp)->name, (yyvsp[(3) - (3)].symp)->name);
@@ -1467,7 +1485,7 @@ yyreduce:
     break;
 
   case 19:
-#line 106 "test.y"
+#line 125 "test.y"
     {
 	(yyval.symp) = gentemp();
 	qArray[quadPtr++] = new_quad_binary(DIV, (yyval.symp)->name, (yyvsp[(1) - (3)].symp)->name, (yyvsp[(3) - (3)].symp)->name);
@@ -1476,12 +1494,12 @@ yyreduce:
     break;
 
   case 21:
-#line 115 "test.y"
+#line 134 "test.y"
     { (yyval.symp) = (yyvsp[(1) - (1)].symp); printrule("additive -> multiplicative"); ;}
     break;
 
   case 22:
-#line 116 "test.y"
+#line 135 "test.y"
     {
 	(yyval.symp) = gentemp();
 	qArray[quadPtr++] = new_quad_binary(PLUS, (yyval.symp)->name, (yyvsp[(1) - (3)].symp)->name, (yyvsp[(3) - (3)].symp)->name);
@@ -1490,7 +1508,7 @@ yyreduce:
     break;
 
   case 23:
-#line 121 "test.y"
+#line 140 "test.y"
     {
 	(yyval.symp) = gentemp();
 	qArray[quadPtr++] = new_quad_binary(MINUS, (yyval.symp)->name, (yyvsp[(1) - (3)].symp)->name, (yyvsp[(3) - (3)].symp)->name);
@@ -1500,7 +1518,7 @@ yyreduce:
 
 
 /* Line 1267 of yacc.c.  */
-#line 1504 "test.tab.c"
+#line 1522 "test.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1714,7 +1732,7 @@ yyreturn:
 }
 
 
-#line 292 "test.y"
+#line 362 "test.y"
 
 
 void yyerror(char *s) {

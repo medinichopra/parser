@@ -35,9 +35,13 @@ typedef enum {
 	PLUS = 1,
 	MINUS,
 	MULT,
+	LE,
+	GE,
+	LTE,
+	GTE,
 	DIV,
 	UNARYMINUS,
-	COPY,
+	COPY
 } opcodeType;
 
 typedef struct quad_tag {
